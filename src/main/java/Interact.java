@@ -16,11 +16,11 @@ public class Interact {
         ResultSet resultSet = null;
         try {
             Class.forName("org.postgresql.Driver");
-            String dbName = "postgres";
-            String userName = "postgres";
-            String password = "postgress";
-            String hostname = "ohq-1.cu4hmukcy6fr.us-west-1.rds.amazonaws.com";
-            String port = "5432";
+            String dbName = System.getenv("RDS_DB_NAME");
+            String userName = System.getenv("RDS_USERNAME");
+            String password = System.getenv("RDS_PASSWORD");
+            String hostname = System.getenv("RDS_HOSTNAME");
+            String port = System.getenv("RDS_PORT");
             String jdbcUrl = "jdbc:postgresql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
             System.out.println("Getting remote connection with connection string from environment variables.");
             con = DriverManager.getConnection(jdbcUrl);
