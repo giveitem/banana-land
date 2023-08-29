@@ -1,0 +1,26 @@
+.App {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.App-button {
+    margin: 10px;
+}
+
+.Table-container {
+    display: flex;
+    /* Use flexbox to make the tables display side by side */
+}
+
+.Table {
+    flex: 1;
+    /* Distribute available space equally among the tables */
+    margin: 10px;
+    padding: 10px;
+}
