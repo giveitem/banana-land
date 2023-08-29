@@ -1,33 +1,31 @@
 import './App.css';
 import AuroraTable from './components/AuroraTable';
-import S3Table from './components/S3Table';
+import BackfillToS3 from './components/BackfillToS3';
+import CrossRegionDuplication from './components/CrossRegionDuplication';
 import DynamoTable from './components/DynamoTable';
-import S3CrossRegionTable from './components/S3CrossRegionTable';
+
 
 function App() {
+
   return (
     <div className="App">
-      <div>
-        <button className="App-button">Update Aurora Table</button>
-        <button className="App-button">Backfill Aurora to S3</button>
-        <button className="App-button">S3 Cross Region Duplication</button>
-        <button className="App-button">Backfill S3 to Dynamo</button>
-      </div>
       <div className="Table-container">
         <div className="Table">
-          <p>Aurora Table</p>
+          <h2>AuroraDB</h2>
+          <button className="App-button">Update Aurora Table</button>
           <AuroraTable />
         </div>
         <div className="Table">
-          <p>S3 Table</p>
-          <S3Table />
+          <h2>S3</h2>
+          <BackfillToS3/>
+          <CrossRegionDuplication/>
+          {/* <progress max="100"></progress>
+          <progress max="100"></progress>
+          <progress max="100"></progress> */}
         </div>
         <div className="Table">
-          <p>S3 Cross Region Table</p>
-          <S3CrossRegionTable />
-        </div>
-        <div className="Table">
-          <p>Dynamo Table</p>
+          <h2>DynamoDB</h2>
+          <button className="App-button">Backfill S3 to Dynamo</button>
           <DynamoTable />
         </div>
       </div>
