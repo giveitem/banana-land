@@ -3,9 +3,9 @@ var cors = require('cors');
 const routes = require('./routes');
 const config = require('./config.json')
 const app = express();
-app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));
+app.use(cors({ credentials: true, origin: ['http://localhost:3002', 'http://localhost:3000'] }));
 app.get('/rds', routes.query);
-
+app.get('/changeDB', routes.changeDB);
 app.get('/hello', (req, res) => {
     res.send('Hello World!')
 });
