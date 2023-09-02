@@ -1,11 +1,12 @@
+import { useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import './App.css';
 import AuroraTable from './components/AuroraTable';
-import BackfillToS3 from './components/BackfillToS3';
-import CrossRegionDuplication from './components/CrossRegionDuplication';
 import DynamoTable from './components/DynamoTable';
-import Alert from 'react-bootstrap/Alert';
-import { getChangeDBResult } from './fetcher.js'
-import { useState } from 'react';
+import S3Table from './components/S3Table';
+import S3Table1 from './components/S3Table1';
+import { getChangeDBResult } from './fetcher.js';
+
 function App() {
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
@@ -33,13 +34,18 @@ function App() {
           <AuroraTable />
         </div>
         <div className="Table">
+          <h2>S3 List</h2>
+          <button className="App-button">Refresh List</button>
+          <p>us-west-1</p>
+          <S3Table />
+          <p>us-east-2</p>
+          <S3Table1 />
+        </div>
+        {/* <div className="Table">
           <h2>S3</h2>
           <BackfillToS3 />
           <CrossRegionDuplication />
-          {/* <progress max="100"></progress>
-          <progress max="100"></progress>
-          <progress max="100"></progress> */}
-        </div>
+        </div> */}
         <div className="Table">
           <h2>DynamoDB</h2>
           <button className="App-button">Backfill S3 to Dynamo</button>
