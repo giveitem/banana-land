@@ -6,19 +6,20 @@ import pyarrow.parquet as pq
 from io import BytesIO
 
 class UserInformation:
-    def __init__(self, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION):
+    def __init__(self, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, table_name):
         self.AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
         self.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
         self.AWS_REGION = AWS_REGION
+        self.table_name = table_name
 
-    def create_dynamoDB_table(self, table_name):
+    def create_dynamoDB_table(self):
         # Create a DynamoDB resource
         dynamodb = boto3.resource('dynamodb', aws_access_key_id=self.AWS_ACCESS_KEY_ID, aws_secret_access_key=self.AWS_SECRET_ACCESS_KEY,
                                   region_name=self.AWS_REGION)
 
         # Define the table schema
         table = dynamodb.create_table(
-            TableName=table_name,
+            TableName=self.table_name,
             KeySchema=[
                 {
                     'AttributeName': 'id',
@@ -44,9 +45,32 @@ class UserInformation:
         )
 
         # Wait for the table to be created
-        table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+        table.meta.client.get_waiter('table_exists').wait(TableName=self.table_name)
+        # PointInTimeRecoverySpecification={
+        #     'PointInTimeRecoveryEnabled': True
+        # }
+        ##
+
+
+
 
         print("Table created:", table.table_status)
+
+    def enable_PITR(self):
+        # Initialize the DynamoDB client
+        dynamodb = boto3.client('dynamodb', aws_access_key_id=self.AWS_ACCESS_KEY_ID,
+                                aws_secret_access_key=self.AWS_SECRET_ACCESS_KEY,
+                                region_name=self.AWS_REGION)
+
+        # Enable PITR for the table
+        response = dynamodb.update_continuous_backups(
+            TableName=self.table_name,
+            PointInTimeRecoverySpecification={
+                'PointInTimeRecoveryEnabled': True
+            }
+        )
+
+        print("PITR is enabled for the table:", response)
 
     def read_parquet_from_S3(self, bucket_name, key):
         # Read from S3 ***
