@@ -1,7 +1,7 @@
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-function S3Table() {
+function S3Table1() {
   const [objectList, setObjectList] = useState([]);
 
   useEffect(() => {
@@ -46,4 +46,4 @@ function S3Table() {
   );
 }
 
-export default S3Table;
+export default S3Table1;
