@@ -1,6 +1,6 @@
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { getAuroraTable } from '../fetcher.js'
+import { getAuroraTable } from '../fetcher.js';
 
 function MaterialTable() {
   // Your table data
@@ -22,18 +22,18 @@ function MaterialTable() {
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
+        <TableRow>
+            <TableCell padding={'none'} align={'center'} style={{ fontSize: '10px' }}>ID</TableCell>
+            <TableCell padding={'none'} align={'center'} style={{ fontSize: '10px' }}>First Name</TableCell>
+            <TableCell padding={'none'} align={'center'} style={{ fontSize: '10px' }}>Last Name</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.id}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.first_name}</TableCell>
-              <TableCell>{row.last_name}</TableCell>
+              <TableCell padding={'none'} align={'center'} style={{ fontSize: '10px' }}>{row.id}</TableCell>
+              <TableCell padding={'none'} align={'center'} style={{ fontSize: '10px' }}>{row.first_name}</TableCell>
+              <TableCell padding={'none'} align={'center'} style={{ fontSize: '10px' }}>{row.last_name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

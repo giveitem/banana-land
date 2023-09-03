@@ -16,7 +16,7 @@ async function query(req, res) {
         Config
     );
     await client.connect()
-    const result = await client.query('SELECT * FROM public.user_info LIMIT 4')
+    const result = await client.query('SELECT * FROM public.user_info ORDER BY id DESC LIMIT 10')
     await client.end()
     res.json({
         result: result.rows
