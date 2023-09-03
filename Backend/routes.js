@@ -9,7 +9,14 @@ const Config = {
     password: process.env.RDS_PASSWORD
 }
 
-
+// ddb config
+const AWS = require('aws-sdk');
+AWS.config.update({
+    accessKeyId: 'AKIA2MDSAAMNQELGPNAT',
+    secretAccessKey: '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',
+    region: 'us-east-1',
+});
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function query(req, res) {
     const client = new pg.Client(
@@ -36,6 +43,26 @@ async function changeDB(req, res) {
         })
 
 }
+
+async function DynamoQuery(req, res) {
+    const dynamoDbParams = {
+        TableName: 'UserInformation',
+        Limit: 4,
+    };
+
+    try {
+        const dynamoDbResult = await dynamodb.scan(dynamoDbParams).promise();
+
+        res.json({
+            result: dynamoDbResult.Items,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+}
+
 module.exports = {
     query,
     changeDB
