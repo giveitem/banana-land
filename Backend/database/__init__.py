@@ -1,7 +1,7 @@
 from UserInformation import UserInformation
 
 DynamoDB_table_name = 'UserInformation'
-User_Info_DynamoDB = UserInformation('AKIA2MDSAAMNQELGPNAT', 'NQVqH+mzofzq6qjKP3ELA6Rf5PBeqSYZytkfVXpo', 'us-east-1', DynamoDB_table_name)
+User_Info_DynamoDB = UserInformation(DynamoDB_table_name)
 
 # User_Info_DynamoDB.create_dynamoDB_table(DynamoDB_table_name)
 

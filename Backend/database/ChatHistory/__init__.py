@@ -1,7 +1,7 @@
 import json
 import uuid
 from datetime import time
-
+from multiprocessing import process
 
 import boto3
 from boto3 import dynamodb
@@ -10,14 +10,17 @@ import uuid
 import random
 import time
 
+
+
 class ChatHistory:
-    def __init__(self, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, table_name, index_name):
-        self.AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
-        self.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
-        self.AWS_REGION = AWS_REGION
+    def __init__(self, table_name, index_name):
+        self.AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID
+        self.AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY
+        self.AWS_REGION = process.env.AWS_REGION
         self.table_name = table_name
         self.index_name = index_name
         self.table = None
+
 
         # Create a DynamoDB resource
         self.dynamodb = boto3.resource('dynamodb', aws_access_key_id=self.AWS_ACCESS_KEY_ID,
@@ -135,7 +138,7 @@ class ChatHistory:
 
 DynamoDB_table_name = 'ChatHistory'
 DynamoDB_index_name = 'QueryByTime'
-chat_history = ChatHistory('AKIA2MDSAAMNQELGPNAT', 'NQVqH+mzofzq6qjKP3ELA6Rf5PBeqSYZytkfVXpo', 'us-east-1', DynamoDB_table_name, DynamoDB_index_name)
+chat_history = ChatHistory(DynamoDB_table_name, DynamoDB_index_name)
 
 
 chat_history.create_dynamoDB_table()

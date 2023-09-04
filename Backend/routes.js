@@ -12,11 +12,12 @@ const Config = {
 // ddb config
 const AWS = require('aws-sdk');
 AWS.config.update({
-    accessKeyId: 'AKIA2MDSAAMNQELGPNAT',
-    secretAccessKey: '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',
-    region: 'us-east-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION,
+
 });
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+
 
 async function query(req, res) {
     const client = new pg.Client(
@@ -44,10 +45,11 @@ async function changeDB(req, res) {
 
 }
 
-async function DynamoQuery(req, res) {
+async function dynamoQuery(req, res) {
+    const dynamodb = new AWS.DynamoDB.DocumentClient();
     const dynamoDbParams = {
         TableName: 'UserInformation',
-        Limit: 4,
+        Limit: 10,
     };
 
     try {
@@ -65,5 +67,6 @@ async function DynamoQuery(req, res) {
 
 module.exports = {
     query,
-    changeDB
+    changeDB,
+    dynamoQuery
 }

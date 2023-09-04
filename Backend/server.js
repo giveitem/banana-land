@@ -16,6 +16,7 @@ const s3 = new AWS.S3();
 app.use(cors({ credentials: true, origin: ['http://localhost:3002', 'http://localhost:3000'] }));
 app.get('/rds', routes.query);
 app.get('/changeDB', routes.changeDB);
+app.get('/ddb', routes.dynamoQuery)
 app.get('/hello', (req, res) => {
     res.send('Hello World!')
 });
