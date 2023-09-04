@@ -20,7 +20,7 @@ function S3Table1() {
       });
   }, []);
 
-  const displayedObjects = objectList.slice(0, 1);
+  const displayedObjects = objectList.slice(-4, -1);
 
   return (
     <div>
