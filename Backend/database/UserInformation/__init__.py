@@ -1,15 +1,16 @@
 import os
 import struct
+from multiprocessing import process
 
 import boto3
 import pyarrow.parquet as pq
 from io import BytesIO
 
 class UserInformation:
-    def __init__(self, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, table_name):
-        self.AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
-        self.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
-        self.AWS_REGION = AWS_REGION
+    def __init__(self, table_name):
+        self.AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID
+        self.AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY
+        self.AWS_REGION = process.env.AWS_REGION
         self.table_name = table_name
 
     def create_dynamoDB_table(self):
