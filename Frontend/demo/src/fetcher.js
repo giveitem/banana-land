@@ -1,39 +1,49 @@
 import config from './config.json';
 
-const getAuroraTable = async() => {
+const getAuroraCount = async () => {
+    let basic = `http://${config.server_host}:${config.server_port}/count_rds`;
+    //console.log(basic);
+    var res = await fetch(basic, {
+        method: 'GET',
+    })
+    var ans = await res.json()
+    //console.log(ans)
+    return ans.result;
+}
+const getAuroraTable = async () => {
     let basic = `http://${config.server_host}:${config.server_port}/rds`;
     //console.log(basic);
     var res = await fetch(basic, {
         method: 'GET',
     })
     var ans = await res.json()
-        //console.log(ans)
+    //console.log(ans)
     return ans.result;
 }
 
-const getChangeDBResult = async() => {
+const getChangeDBResult = async () => {
     let basic = `http://${config.server_host}:${config.server_port}/changeDB`;
     //console.log(basic);
     var res = await fetch(basic, {
         method: 'GET',
     })
     var ans = await res.json()
-        //console.log(ans)
+    //console.log(ans)
     return ans.result;
 }
 
-const getDynamoDBTable = async() => {
+const getDynamoDBTable = async () => {
     let basic = `http://${config.server_host}:${config.server_port}/ddb`;
     //console.log(basic);
     var res = await fetch(basic, {
         method: 'GET',
     })
     var ans = await res.json()
-        //console.log(ans)
+    //console.log(ans)
     return ans.result;
 }
 
-const getCurrentTable = async() => {
+const getCurrentTable = async () => {
     if (config.use_change_db) {
         config.use_change_db = false
     } else {
@@ -48,6 +58,7 @@ const getCurrentTable = async() => {
     }
 }
 
+
 // function updateToggleConfig(){
 //     if (config.use_change_db) {
 //        config.use_change_db = false
@@ -56,4 +67,4 @@ const getCurrentTable = async() => {
 //     }
 // }
 
-export { getAuroraTable, getChangeDBResult, getCurrentTable, getDynamoDBTable };
+export { getAuroraTable, getChangeDBResult, getCurrentTable, getDynamoDBTable, getAuroraCount };

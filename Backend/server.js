@@ -18,6 +18,7 @@ app.get('/ddb', routes.dynamoQuery)
 app.get('/hello', (req, res) => {
     res.send('Hello World!')
 });
+app.get('/count_rds', routes.count_rds);
 
 //Define a route to fetch the list of S3 objects
 app.get('/api/aws-objects', (req, res) => {

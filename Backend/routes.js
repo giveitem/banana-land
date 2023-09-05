@@ -63,9 +63,21 @@ async function dynamoQuery(req, res) {
     }
 
 }
+async function count_rds(req, res) {
+    const client = new pg.Client(
+        Config
+    );
+    await client.connect()
+    const result = await client.query('SELECT COUNT(*) FROM public.user_info')
+    await client.end()
+    res.json({
+        result: result.rows
+    })
+}
 
 module.exports = {
     query,
     changeDB,
-    dynamoQuery
+    dynamoQuery,
+    count_rds
 }

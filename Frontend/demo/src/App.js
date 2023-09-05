@@ -5,19 +5,28 @@ import AuroraTable from './components/AuroraTable';
 import DynamoTable from './components/DynamoTable';
 import S3Table from './components/S3Table';
 import S3Table1 from './components/S3Table1';
-import { getChangeDBResult } from './fetcher.js';
+import { getChangeDBResult, getAuroraCount } from './fetcher.js';
 
 function App() {
+  const [auroraCount, setAuroraCount] = useState(0);
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
   const load = () => {
     getChangeDBResult().then((res) => {
+      getCount();
       setMessage(res);
       setShowAlert(true);
       console.log(res);
     })
   }
+  const getCount = () => {
+    getAuroraCount().then((res) => {
+      setAuroraCount(res[0]["count"]);
+      console.log(res);
+    })
+  }
+  getCount();
 
   const [currentTable, setCurrentTable] = useState('aurora');
 
@@ -25,9 +34,8 @@ function App() {
     setCurrentTable(prevTable => prevTable === 'aurora' ? 'dynamo' : 'aurora');
   }
 
-  const refresh = () => { 
+  const refresh = () => {
     window.location.reload();
-
   }
 
   return (
@@ -39,12 +47,15 @@ function App() {
           </Alert>
         </>
       )}
+      <div>
+        AuroraDB Row Count: {auroraCount}
+      </div>
       <div className="Table-container">
-      <div className="Table">
-      <h2>Toggle Table</h2>
-      <button className="App-button" onClick={toggle}>Switch Table</button>
-      {currentTable === 'aurora' ? <AuroraTable /> : <DynamoTable />}
-    </div>
+        <div className="Table">
+          <h2>Toggle Table</h2>
+          <button className="App-button" onClick={toggle}>Switch Table</button>
+          {currentTable === 'aurora' ? <AuroraTable /> : <DynamoTable />}
+        </div>
         <div className="Table">
           <h2>AuroraDB</h2>
           <button className="App-button" onClick={load}>Update Aurora Table</button>
