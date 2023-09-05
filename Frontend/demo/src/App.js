@@ -2,11 +2,10 @@ import { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import './App.css';
 import AuroraTable from './components/AuroraTable';
-import CurrentTable from './components/CurrentTable';
 import DynamoTable from './components/DynamoTable';
 import S3Table from './components/S3Table';
 import S3Table1 from './components/S3Table1';
-import { getChangeDBResult, getCurrentTable } from './fetcher.js';
+import { getChangeDBResult } from './fetcher.js';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -20,10 +19,10 @@ function App() {
     })
   }
 
+  const [currentTable, setCurrentTable] = useState('aurora');
+
   const toggle = () => {
-    getCurrentTable().then((res) => {
-      console.log(res);
-    })
+    setCurrentTable(prevTable => prevTable === 'aurora' ? 'dynamo' : 'aurora');
   }
 
   const refresh = () => { 
@@ -42,10 +41,10 @@ function App() {
       )}
       <div className="Table-container">
       <div className="Table">
-          <h2>Toggle Table</h2>
-          <button className="App-button" onClick={toggle}>Switch Table</button>
-          <CurrentTable />
-        </div>
+      <h2>Toggle Table</h2>
+      <button className="App-button" onClick={toggle}>Switch Table</button>
+      {currentTable === 'aurora' ? <AuroraTable /> : <DynamoTable />}
+    </div>
         <div className="Table">
           <h2>AuroraDB</h2>
           <button className="App-button" onClick={load}>Update Aurora Table</button>
