@@ -1,13 +1,13 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useState } from 'react';
-import { getDynamoDBTable } from '../fetcher.js';
+import { getCurrentTable } from '../fetcher.js';
 
 function MaterialTable() {
   // Your table data
   const [rows, setRows] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const first = () => {
-    getDynamoDBTable().then((res) => {
+    getCurrentTable().then((res) => {
       setRows(res);
     })
     console.log(rows);

@@ -18,6 +18,18 @@ function App() {
       console.log(res);
     })
   }
+
+  const [currentTable, setCurrentTable] = useState('aurora');
+
+  const toggle = () => {
+    setCurrentTable(prevTable => prevTable === 'aurora' ? 'dynamo' : 'aurora');
+  }
+
+  const refresh = () => { 
+    window.location.reload();
+
+  }
+
   return (
     <div className="App">
       {showAlert && (
@@ -28,6 +40,11 @@ function App() {
         </>
       )}
       <div className="Table-container">
+      <div className="Table">
+      <h2>Toggle Table</h2>
+      <button className="App-button" onClick={toggle}>Switch Table</button>
+      {currentTable === 'aurora' ? <AuroraTable /> : <DynamoTable />}
+    </div>
         <div className="Table">
           <h2>AuroraDB</h2>
           <button className="App-button" onClick={load}>Update Aurora Table</button>
@@ -35,7 +52,7 @@ function App() {
         </div>
         <div className="Table">
           <h2>S3 List</h2>
-          <button className="App-button">Refresh List</button>
+          <button className="App-button" onClick={refresh}>Refresh List</button>
           <p>us-west-1</p>
           <S3Table />
           <p>us-east-2</p>
