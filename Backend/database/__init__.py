@@ -3,15 +3,18 @@ from UserInformation import UserInformation
 DynamoDB_table_name = 'UserInformation'
 User_Info_DynamoDB = UserInformation(DynamoDB_table_name)
 
-# User_Info_DynamoDB.create_dynamoDB_table(DynamoDB_table_name)
-
-User_Info_DynamoDB.enable_PITR()
-
-# S3_bucket_name = 'bananaland'
-# S3_key = 'BACKUP-23-08-21-11-04-31.parquet'
-# df = User_Info_DynamoDB.read_parquet_from_S3(S3_bucket_name, S3_key)
+#Comment out below code blocks as need
+#Create the table
+# User_Info_DynamoDB.create_dynamoDB_table()
 #
-# User_Info_DynamoDB.write_to_DynamoDB(DynamoDB_table_name)
+# User_Info_DynamoDB.enable_PITR()
+
+#Backfill
+S3_bucket_name = 'bananaland'
+S3_key = 'BACKUP-23-08-21-11-04-31.parquet'
+User_Info_DynamoDB.backfill_from_S3_to_DDB(S3_bucket_name, S3_key)
+
+
 
 
 

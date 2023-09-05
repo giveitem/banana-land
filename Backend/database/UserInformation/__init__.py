@@ -5,6 +5,9 @@ from multiprocessing import process
 import boto3
 import pyarrow.parquet as pq
 from io import BytesIO
+import os
+from boto3 import s3
+
 
 class UserInformation:
     def __init__(self, table_name):
@@ -15,8 +18,8 @@ class UserInformation:
 
     def create_dynamoDB_table(self):
         # Create a DynamoDB resource
-        dynamodb = boto3.resource('dynamodb', aws_access_key_id=self.AWS_ACCESS_KEY_ID, aws_secret_access_key=self.AWS_SECRET_ACCESS_KEY,
-                                  region_name=self.AWS_REGION)
+        dynamodb = boto3.resource('dynamodb', aws_access_key_id=self.AWS_ACCESS_KEY_ID,
+                                  aws_secret_access_key=self.AWS_SECRET_ACCESS_KEY, region_name=self.AWS_REGION)
 
         # Define the table schema
         table = dynamodb.create_table(
@@ -80,8 +83,9 @@ class UserInformation:
         os.environ['AWS_SECRET_ACCESS_KEY'] = self.AWS_SECRET_ACCESS_KEY
         os.environ['AWS_REGION'] = self.AWS_REGION
 
-        # s3 = boto3.resource('s3')
-        s3 = boto3.client('s3')
+        # Create an S3 client
+        s3 = boto3.client('s3', region_name=self.AWS_REGION)
+
 
         response = s3.get_object(Bucket=bucket_name, Key=key)
         parquet_data = response['Body'].read()
@@ -98,7 +102,7 @@ class UserInformation:
 
         return df
 
-    def write_to_DynamoDB(self, table_name):
+    def write_to_DynamoDB(self, df, table_name):
         # Configure AWS credentials
         os.environ['AWS_ACCESS_KEY_ID'] = self.AWS_ACCESS_KEY_ID
         os.environ['AWS_SECRET_ACCESS_KEY'] = self.AWS_SECRET_ACCESS_KEY
@@ -106,7 +110,7 @@ class UserInformation:
 
         # Write to DynamoDB
         # Initialize DynamoDB client
-        dynamodb = boto3.client('dynamodb')
+        dynamodb = boto3.client('dynamodb', region_name='us-east-1')
 
         # Iterate through DataFrame and put items into DynamoDB table
         for _, row in df.iterrows():
@@ -114,12 +118,12 @@ class UserInformation:
                 'id': {'N': str(row['id'])},
                 'password': {'S': row['password']},
                 'username': {'S': row['username']},
-                'firstName': {'S': row['first_name']},
-                'lastName': {'S': row['last_name']},
+                'first_name': {'S': row['first_name']},
+                'last_name': {'S': row['last_name']},
                 'email': {'S': row['email']},
-                'isStaff': {'B': struct.pack('?', row['is_staff'])},
-                'isCourseManager': {'B': struct.pack('?', row['is_course_manager'])},
-                'isOrgManager': {'B': struct.pack('?', row['is_org_manager'])}
+                'is_staff': {'B': struct.pack('?', row['is_staff'])},
+                'is_course_manager': {'B': struct.pack('?', row['is_course_manager'])},
+                'is_org_manager': {'B': struct.pack('?', row['is_org_manager'])}
             }
 
             response = dynamodb.put_item(
@@ -130,6 +134,11 @@ class UserInformation:
             print(f"Inserted item with ID: {row['id']}")
 
         print("Data insertion into DynamoDB complete.")
+
+    def backfill_from_S3_to_DDB(self, bucket_name, key):
+        df = self.read_parquet_from_S3(bucket_name, key)
+        self.write_to_DynamoDB(df, self.table_name)
+
 
 
 

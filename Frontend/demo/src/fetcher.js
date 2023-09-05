@@ -33,4 +33,14 @@ const getDynamoDBTable = async () => {
     return ans.result;
 }
 
-export { getAuroraTable, getChangeDBResult, getDynamoDBTable };
+const getCurrentTable = async () => {
+    if (config.use_change_db) {
+    // Use getChangeDBResult if the feature flag is true
+    return await getDynamoDBTable();
+  } else {
+    // Use getAuroraTable if the feature flag is false
+    return await getAuroraTable();
+  }
+}
+
+export { getAuroraTable, getChangeDBResult, getDynamoDBTable, getCurrentTable };
