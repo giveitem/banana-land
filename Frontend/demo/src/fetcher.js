@@ -34,6 +34,7 @@ const getDynamoDBTable = async () => {
 }
 
 const getCurrentTable = async () => {
+    updateToggleConfig()
     if (config.use_change_db) {
     // Use getChangeDBResult if the feature flag is true
     return await getDynamoDBTable();
@@ -43,4 +44,12 @@ const getCurrentTable = async () => {
   }
 }
 
-export { getAuroraTable, getChangeDBResult, getDynamoDBTable, getCurrentTable };
+function updateToggleConfig(){
+    if (config.use_change_db) {
+       config.use_change_db = false
+    } else {
+        config.use_change_db = true
+    }
+}
+
+export { getAuroraTable, getChangeDBResult, getDynamoDBTable, getCurrentTable};
