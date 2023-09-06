@@ -89,9 +89,11 @@ the client will have a unique DynamoDB table to store either user information da
 data within the same administrator account. The proposed DynamoDB and Aurora table designs are
 as follows:
 1. DynamoDB table design
+   
 ![image](https://github.com/giveitem/banana-land/assets/49624400/38375b48-9951-488a-8438-d7bbf9440ca5)
 
 2. Aurora table design
+   
 ![image](https://github.com/giveitem/banana-land/assets/49624400/b9742ba4-c438-484f-852a-9a4c754dd2f2)
 
 
