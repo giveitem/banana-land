@@ -1,5 +1,6 @@
 # AWS Data Restore
-Team Banana-Land: @Janecching, @ScarStarS,  @giveitem, @asana-boop
+Hi! We are team Banana-Land: @Janecching, @ScarStarS,  @giveitem, @asana-boop
+This repository is an entry for Penn Engineering Online's SPARC (Side Projects for Advancement, Refinement and Collaboration) competition.
 
 ## Introduction
 MCIT Online currently utilizes the student-created web platform OHQ for managing private TA
